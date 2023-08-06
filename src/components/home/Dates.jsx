@@ -1,10 +1,33 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../config";
 import illustration from "../assets/IcareliUNS.svg";
 import illustration2 from "../assets/sdg.svg";
 
 const ImportantDates = () => {
+  const [importantDates, setImportantDates] = useState([]);
+
+  useEffect(() => {
+    const url = `${API_BASE_URL}importantdates`;
+
+    axios
+      .get(url)
+      .then((response) => {
+        setImportantDates(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+  const formatDate = (dateString) => {
+    const options = { day: "numeric", month: "long", year: "numeric" };
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", options);
+  };
+
   return (
-    <div className=" font-plus-jakarta flex flex-col items-center justify-center">
+    <div className="font-plus-jakarta flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-4">IMPORTANT DATES</h1>
       <div className="w-full flex justify-center mt-10">
         <table className="table-fixed w-3/4 font-semibold" style={{ paddingLeft: "20px", borderCollapse: "collapse" }}>
@@ -19,14 +42,12 @@ const ImportantDates = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="border-b-2 text-center border-gray-600 px-4 py-2">First call for paper submission</td>
-              <td className="border-b-2 text-center border-gray-600 px-4 py-2">15 March 2023</td>
-            </tr>
-            <tr>
-              <td className="border-b-2 text-center border-gray-600 px-4 py-2">Deadline for abstract submission</td>
-              <td className="border-b-2 text-center border-gray-600 px-4 py-2">25 May 2023</td>
-            </tr>
+            {importantDates.map((date, index) => (
+              <tr key={index}>
+                <td className="border-b-2 text-center border-gray-600 px-4 py-2">{date.nama}</td>
+                <td className="border-b-2 text-center border-gray-600 px-4 py-2">{formatDate(date.date)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

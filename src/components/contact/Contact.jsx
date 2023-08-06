@@ -1,6 +1,26 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../config";
 
 const Contact = () => {
+  const [contactData, setContactData] = useState({
+    address: "",
+    emailAndWeb: "",
+    phone: "",
+    fax: "",
+  });
+
+  useEffect(() => {
+    axios
+      .get(`${API_BASE_URL}contact`)
+      .then((response) => {
+        setContactData(response.data[0]);
+      })
+      .catch((error) => {
+        console.error("An error occurred while fetching the contact data:", error);
+      });
+  }, []);
+
   return (
     <div className="flex justify-center text-center font-plus-jakarta">
       <div className="flex flex-col p-10 w-3/4">
@@ -9,33 +29,23 @@ const Contact = () => {
           <thead>
             <tr>
               <th className="w-1/2 text-xl px-4 py-2 text-left border-b-2 border-gray-600">Address</th>
-              <th className="w-1/2 px-4 py-2 text-left border-b-2 border-gray-600">
-                Department of Animal Science Faculty of Agriculture Universitas Sebelas Maret Surakarta Jl. Ir Sutami No.36, Kentingan, Kec. Jebres, Kota Surakarta 57126
-              </th>
+              <th className="w-1/2 px-4 py-2 text-left border-b-2 border-gray-600" dangerouslySetInnerHTML={{ __html: contactData.address }}></th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th className="w-1/2 text-xl px-4 py-2 text-left border-b-2 border-gray-600">Email & Web PIC: Farouq Heidar Barido</th>
+              <th className="w-1/2 text-xl px-4 py-2 text-left border-b-2 border-gray-600">Email & Web</th>
               <th className="w-1/2 px-4 py-2 text-left border-b-2 border-gray-600">
-                <a href="http://www.icareli.uns.ac.id">http://www.icareli.uns.ac.id</a>
-                <br />
-                Email: <a href="mailto:icareli@mail.uns.ac.id">icareli@mail.uns.ac.id</a>
+                <a href={contactData.emailAndWeb} dangerouslySetInnerHTML={{ __html: contactData.email }}></a>
               </th>
             </tr>
             <tr>
               <th className="w-1/2 text-xl px-4 py-2 text-left border-b-2 border-gray-600">Phone</th>
-              <th className="w-1/2 px-4 py-2 text-left border-b-2 border-gray-600">
-                <span>Ayu Intan Sari, S.Pt., M.Sc. (+62 813-2962-1234)</span>
-                <br />
-                <span>Yuli Yanti, S.Pt., M.Sc. Ph.D. (+62 852-3570-5175)</span>
-                <br />
-                <span style={{ color: "red" }}>Note: Available for chat and What`s up in office hours: 08.00-16.00 WIB (UTC+07:00) during weekdays</span>
-              </th>
+              <th className="w-1/2 px-4 py-2 text-left border-b-2 border-gray-600" dangerouslySetInnerHTML={{ __html: contactData.phone }}></th>
             </tr>
             <tr>
               <th className="w-1/2 text-xl px-4 py-2 text-left border-b-2 border-gray-600">Fax</th>
-              <th className="w-1/2 px-4 py-2 text-left border-b-2 border-gray-600">+62 271 637 457</th>
+              <th className="w-1/2 px-4 py-2 text-left border-b-2 border-gray-600" dangerouslySetInnerHTML={{ __html: contactData.fax }}></th>
             </tr>
           </tbody>
         </table>

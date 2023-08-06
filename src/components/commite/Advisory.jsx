@@ -1,6 +1,21 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../config";
 
 const Advisory = () => {
+  const [advisoryBoard, setAdvisoryBoard] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_BASE_URL}advisory`)
+      .then((response) => {
+        setAdvisoryBoard(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
     <div className="flex justify-center text-center font-plus-jakarta">
       <div className="flex flex-col justify-left p-10">
@@ -13,19 +28,17 @@ const Advisory = () => {
                   Name
                 </th>
                 <th className="w-1/2 px-4 py-2 border-b-2 border-gray-600" style={{ background: "linear-gradient(to right, #9EFF00, #00FF94)", borderLeft: "none", borderRight: "none" }}>
-                  Institusions
+                  Institutions
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">First call for paper submission</td>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">15 March 2023</td>
-              </tr>
-              <tr>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">Deadline for abstract submission</td>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">25 May 2023</td>
-              </tr>
+              {advisoryBoard.map((contact, index) => (
+                <tr key={index}>
+                  <td className="border-b-2 text-center border-gray-600 px-4 py-2">{contact.nama}</td>
+                  <td className="border-b-2 text-center border-gray-600 px-4 py-2">{contact.instansi}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

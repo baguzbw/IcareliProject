@@ -1,12 +1,27 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_BASE_URL, API_GAMBAR_URL } from "../../config";
 
 const Speakers = () => {
+  const [speakers, setSpeakers] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${API_BASE_URL}speaker`)
+      .then((response) => {
+        setSpeakers(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
     <div className="container mx-auto font-plus-jakarta p-8 mb-20 text-center">
       <h1 className="text-4xl font-semibold mb-6">SPEAKERS</h1>
       <div className="flex flex-wrap justify-center gap-8">
-        {Array.from({ length: 3 }, (_, index) => (
+        {speakers.slice(0, 3).map((speaker, index) => (
           <div key={index} className="m-4 w-[320px]">
             <div
               className="bg-white shadow-lg rounded-3xl overflow-hidden"
@@ -14,10 +29,10 @@ const Speakers = () => {
                 boxShadow: "0 0 4px #00FF94, 0 0 8px #00FF94, 0 0 12px #00FF94, 0 0 16px #00FF94",
               }}
             >
-              <img className="w-full h-[500px] object-cover" src={`https://placekitten.com/320/500?image=${index}`} alt={`Speaker ${index}`} />
+              <img className="w-full h-[500px] object-cover" src={`${API_GAMBAR_URL}${speaker.gambar_speaker}`} alt={`Speaker ${index}`} />
             </div>
-            <h2 className="text-xl font-semibold mt-4 mb-2">Speaker Name {index}</h2>
-            <p className="text-gray-600 text-sm">Some details about the speaker.</p>
+            <h2 className="text-xl font-semibold mt-4 mb-2">{speaker.nama}</h2>
+            <p className="text-gray-600 text-sm">{speaker.instansi}</p>
           </div>
         ))}
       </div>

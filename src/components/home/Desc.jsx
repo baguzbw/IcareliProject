@@ -1,21 +1,48 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import illustration from "../assets/pgn.svg";
+import { API_BASE_URL, API_GAMBAR_URL } from "../../config";
 
 const DescPage = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const url = `${API_BASE_URL}about`;
+
+    axios
+      .get(url)
+      .then((response) => {
+        setData(response.data[0]);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+        setError("Error fetching data. Please try again later.");
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  const firstTwoSentences = data.deskripsi.split(". ").slice(0, 4).join(". ") + ".";
+
   return (
     <div className="flex h-screen font-plus-jakarta">
       <div className="w-1/2 flex justify-center items-center">
-        <img src={illustration} alt="Illustration" />
+        <img src={`${API_GAMBAR_URL}${data.gambar_about}`} alt="Illustration" className="rounded-2xl" />
       </div>
       <div className="w-1/2 flex flex-col justify-center items-start p-10">
         <h1 className="text-4xl font-bold mb-4">ABOUT 2nd ICARELI</h1>
-        <h1 className="text-4xl font-bold mb-4"></h1>
         <h1 className="text-2xl font-bold mb-4">Synergy in Advanced Sciences and Technologies for Sustainable Livestock Industry</h1>
-        <p className="text-xl mb-10">
-          Food security and adequacy becomes an important issue after the pandemic situation is over. Adequacy of food is influenced by the global political situation so that many observers say that 2023 is a tough year to go through. Food
-          security and food safety are basic needs for a wide audience that must be met.
-        </p>
+        <div className="text-xl mt-4 mb-6" dangerouslySetInnerHTML={{ __html: firstTwoSentences }} />
         <Link to="/about">
           <button
             className="px-6 py-3 text-white text-xl rounded-2xl"

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import DescAbout from "../about/DescAbout";
 import About from "../about/HeaderAbout";
+import Scope from "../about/Scope";
 
 export default class AboutPage extends Component {
   render() {
@@ -8,6 +9,7 @@ export default class AboutPage extends Component {
       <div>
         <About />
         <DescAbout />
+        <Scope />
       </div>
     );
   }

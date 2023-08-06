@@ -1,6 +1,34 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../config";
 
-const Scientific = () => {
+const Organizing = () => {
+  const [organizingCommittee, setOrganizingCommittee] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(`${API_BASE_URL}organizing`)
+      .then((response) => {
+        setOrganizingCommittee(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError("Error fetching data. Please try again later.");
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
     <div className="flex justify-center text-center font-plus-jakarta">
       <div className="flex flex-col justify-left p-10">
@@ -18,14 +46,12 @@ const Scientific = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">First call for paper submission</td>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">15 March 2023</td>
-              </tr>
-              <tr>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">Deadline for abstract submission</td>
-                <td className="border-b-2 text-center border-gray-600 px-4 py-2">25 May 2023</td>
-              </tr>
+              {organizingCommittee.map((contact, index) => (
+                <tr key={index}>
+                  <td className="border-b-2 text-center border-gray-600 px-4 py-2">{contact.divisi}</td>
+                  <td className="border-b-2 text-center border-gray-600 px-4 py-2">{contact.nama}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -34,4 +60,4 @@ const Scientific = () => {
   );
 };
 
-export default Scientific;
+export default Organizing;
