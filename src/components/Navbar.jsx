@@ -12,7 +12,7 @@ const Navbar = () => {
         <img src={Icareli} alt="Logo" className="h-8 w-auto sm:h-10 cursor-pointer" />
       </Link>
       <div className="flex items-center font-bold text-black font-plus-jakarta space-x-4">
-        {["About", "Program", "Speakers", "Commite", "Contact"].map((item, index) => (
+        {["About", "Program", "Speakers", "Commitee", "News", "Contact"].map((item, index) => (
           <Link to={`/${item.toLowerCase()}`} className="" key={index} onMouseEnter={() => setHoveredIndex(index)} onMouseLeave={() => setHoveredIndex(null)} style={{ color: hoveredIndex === index ? "#00FF94" : "#000000" }}>
             {item}
           </Link>

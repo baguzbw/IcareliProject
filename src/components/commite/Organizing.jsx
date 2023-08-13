@@ -49,7 +49,7 @@ const Organizing = () => {
               {organizingCommittee.map((contact, index) => (
                 <tr key={index}>
                   <td className="border-b-2 text-center border-gray-600 px-4 py-2">{contact.divisi}</td>
-                  <td className="border-b-2 text-center border-gray-600 px-4 py-2">{contact.nama}</td>
+                  <td className="border-b-2 text-center border-gray-600 px-4 py-2" dangerouslySetInnerHTML={{ __html: contact.nama }}></td>
                 </tr>
               ))}
             </tbody>

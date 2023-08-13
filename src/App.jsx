@@ -6,16 +6,20 @@ import About from "./components/pages/About";
 import Commite from "./components/pages/Commite";
 import Contact from "./components/pages/Contact";
 import Home from "./components/pages/Dashboard";
+import News from "./components/pages/News";
 import Program from "./components/pages/Program";
 import Register from "./components/pages/Register";
 import Speakers from "./components/pages/Speakers";
+import ArticleDetail from "./components/news/ArticleDetail";
 
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/commite" element={<Commite />} />
+        <Route path="/commitee" element={<Commite />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<ArticleDetail key={window.location.pathname} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/program" element={<Program />} />
         <Route path="/speakers" element={<Speakers />} />

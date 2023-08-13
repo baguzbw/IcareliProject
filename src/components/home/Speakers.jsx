@@ -29,7 +29,7 @@ const Speakers = () => {
                 boxShadow: "0 0 4px #00FF94, 0 0 8px #00FF94, 0 0 12px #00FF94, 0 0 16px #00FF94",
               }}
             >
-              <img className="w-full h-[500px] object-cover" src={`${API_GAMBAR_URL}${speaker.gambar_speaker}`} alt={`Speaker ${index}`} />
+              <img className=" w-[320px] h-[420px] object-contain mx-auto mt-4" src={`${API_GAMBAR_URL}${speaker.gambar_speaker}`} alt={`Speaker ${index}`} />
             </div>
             <h2 className="text-xl font-semibold mt-4 mb-2">{speaker.nama}</h2>
             <p className="text-gray-600 text-sm">{speaker.instansi}</p>

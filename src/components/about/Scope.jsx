@@ -40,9 +40,9 @@ const DescPage = () => {
           <img src={`${API_GAMBAR_URL}${data.gambar_1}`} alt="Image 1" className="mb-4 w-3/4 rounded-2xl" />
           <img src={`${API_GAMBAR_URL}${data.gambar_2}`} alt="Image 2" className="mb-4 w-3/4 rounded-2xl" />
         </div>
-        <div className="flex flex-col w-3/4">
+        <div className="flex flex-col">
           <h1 className="text-2xl font-bold mb-10">SCOPE :</h1>
-          <div className="text-xl mt-4" dangerouslySetInnerHTML={{ __html: data.deskripsi }} />
+          <div className="text-lg mt-4" dangerouslySetInnerHTML={{ __html: data.deskripsi }} />
         </div>
       </div>
       <div className="w-full mt-24  flex justify-center items-center">

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import CountdownHitung from "../home/Countdown";
 import Date from "../home/Dates";
 import Desc from "../home/Desc";
 import Landing from "../home/Landing";
@@ -9,6 +10,7 @@ export default class HomePage extends Component {
     return (
       <div>
         <Landing />
+        <CountdownHitung />
         <Desc />
         <Speakers />
         <Date />
