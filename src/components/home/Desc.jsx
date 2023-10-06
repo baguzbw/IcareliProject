@@ -1,28 +1,47 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { API_BASE_URL, API_GAMBAR_URL } from "../../config";
+import { MainContext } from "../../context/MainContext";
 
 const DescPage = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { eventId } = useParams();
+  const { event } = useContext(MainContext);
+  const firstPath = parseInt(location.pathname.split("/")[1]);
 
   useEffect(() => {
     const url = `${API_BASE_URL}about`;
-
-    axios
-      .get(url)
-      .then((response) => {
-        setData(response.data[0]);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching data:", err);
-        setError("Error fetching data. Please try again later.");
-        setLoading(false);
-      });
-  }, []);
+    if (eventId != undefined) {
+      axios
+        .get(url)
+        .then((response) => {
+          const filteredData = response.data.filter((item) => item.event == eventId);
+          setData(filteredData[0]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching data:", err);
+          setError("Error fetching data. Please try again later.");
+          setLoading(false);
+        });
+    } else {
+      axios
+        .get(url)
+        .then((response) => {
+          const filteredData = response.data.filter((item) => item.event == event);
+          setData(filteredData[0]);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching data:", err);
+          setError("Error fetching data. Please try again later.");
+          setLoading(false);
+        });
+    }
+  }, [event, eventId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -30,6 +49,10 @@ const DescPage = () => {
 
   if (error) {
     return <div>{error}</div>;
+  }
+
+  if (data == null) {
+    return <div>No data</div>;
   }
 
   const firstTwoSentences = data.deskripsi.split(". ").slice(0, 4).join(". ") + ".";
@@ -40,10 +63,9 @@ const DescPage = () => {
         <img src={`${API_GAMBAR_URL}${data.gambar_about}`} alt="Illustration" className="rounded-2xl" />
       </div>
       <div className="w-1/2 flex flex-col justify-center items-start p-10">
-        <h1 className="text-4xl font-bold mb-4">ABOUT 2nd ICARELI</h1>
-        <h1 className="text-2xl font-bold mb-4">Synergy in Advanced Sciences and Technologies for Sustainable Livestock Industry</h1>
+        <h1 className="text-4xl font-bold mb-4">ABOUT ICARELI CONFERENCE</h1>
         <div className="text-xl mt-4 mb-6" dangerouslySetInnerHTML={{ __html: firstTwoSentences }} />
-        <Link to="/about">
+        <Link to={Number.isNaN(firstPath) ? `/about` : `/${firstPath}/about`}>
           <button
             className="px-6 py-3 text-white text-xl rounded-2xl"
             style={{

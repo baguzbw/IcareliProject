@@ -1,4 +1,3 @@
-import React from "react";
 import backgroundImage from "../assets/background.svg";
 
 const About = () => {
@@ -14,7 +13,10 @@ const About = () => {
     >
       <div className="w-3/4 flex flex-col items-center justify-center p-5 text-center">
         <h1 className="text-5xl font-bold mb-4 p-5 font-plus-jakarta">ABOUT</h1>
-        <p className="text-xl font-plus-jakarta">ICARELI (International Conference on Animal Research for Eco-Friendly Livestock Industry)</p>
+        <p className="text-xl font-plus-jakarta">
+          ICARELI (International Conference on Animal Research for Eco-Friendly
+          Livestock Industry)
+        </p>
       </div>
     </div>
   );

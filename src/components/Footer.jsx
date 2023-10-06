@@ -12,8 +12,9 @@ const Footer = () => {
       }}
     >
       <div className="container mx-auto text-center font-plus-jakarta text-[#707072] text-lg font-bold">
-        <p>The 2nd International Conference on Animal Research for Eco-Friendly Livestock Industry</p>
-        <p>Copyright © 2023 </p>
+        <p>The International Conference on Animal Research for Eco-Friendly Livestock Industry</p>
+        <p>Presented by The Faculty of Animal Science, Universitas Sebelas Maret, Surakarta, Indonesia Hybrid meeting.</p>
+        <p className="mt-2">Copyright © 2023 </p>
       </div>
     </footer>
   );

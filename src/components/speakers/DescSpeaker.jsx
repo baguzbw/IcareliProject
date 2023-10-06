@@ -1,36 +1,49 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { API_BASE_URL, API_GAMBAR_URL } from "../../config";
+import { useParams } from "react-router-dom";
+import { MainContext } from "../../context/MainContext";
 
 const DescSpeakers = () => {
   const [speakers, setSpeakers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { eventId } = useParams();
+  const { event } = useContext(MainContext);
+
 
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}speaker`)
-      .then((response) => {
-        setSpeakers(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setError("Error fetching data. Please try again later.");
-        setLoading(false);
-      });
-  }, []);
+    const fetchData = async () => {
+      if (eventId != undefined) {
+        try {
+          const response = await axios.get(`${API_BASE_URL}speaker`);
+          const filteredData = response.data.filter(
+            (item) => item.event == eventId
+          );
+          setSpeakers(filteredData);
+          console.log(event);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      } else {
+        try {
+          const response = await axios.get(`${API_BASE_URL}speaker`);
+          const filteredData = response.data.filter(
+            (item) => item.event == event
+          );
+          setSpeakers(filteredData);
+          console.log(event);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [event, eventId]);
+
 
   const keynoteSpeaker = speakers.slice(0, 1);
   const invitedSpeakers = speakers.slice(1);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <div className="container mx-auto font-plus-jakarta p-8 mb-20 text-center">

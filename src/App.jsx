@@ -1,5 +1,10 @@
 import React from "react";
-import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import About from "./components/pages/About";
@@ -11,25 +16,44 @@ import Program from "./components/pages/Program";
 import Register from "./components/pages/Register";
 import Speakers from "./components/pages/Speakers";
 import ArticleDetail from "./components/news/ArticleDetail";
+import MainProvider from "./context/MainContext";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/commitee" element={<Commite />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/news/:id" element={<ArticleDetail key={window.location.pathname} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/program" element={<Program />} />
-        <Route path="/speakers" element={<Speakers />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/" element={<Navigate to="/home" />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <MainProvider>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/commitee" element={<Commite />} />
+          <Route path="/news" element={<News />} />
+          <Route
+            path="/news/:id"
+            element={<ArticleDetail key={window.location.pathname} />}
+          />
+          <Route path="/register" element={<Register />} />
+          <Route path="/program" element={<Program />} />
+          <Route path="/speakers" element={<Speakers />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/:eventId/commitee" element={<Commite />} />
+          <Route path="/:eventId/news" element={<News />} />
+          <Route
+            path="/:eventId/news/:id"
+            element={<ArticleDetail key={window.location.pathname} />}
+          />
+          <Route path="/:eventId/register" element={<Register />} />
+          <Route path="/:eventId/program" element={<Program />} />
+          <Route path="/:eventId/speakers" element={<Speakers />} />
+          <Route path="/:eventId/contact" element={<Contact />} />
+          <Route path="/:eventId/about" element={<About />} />
+          <Route path="/:eventId/home" element={<Home />} />
+          <Route path="/:eventId/" element={<Navigate to="/home" />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </MainProvider>
   );
 }
 
